@@ -6,8 +6,6 @@ import { SignaturePad } from '../components/SignaturePad';
 import { DocumentUpload } from '../components/DocumentUpload';
 import { calculateEMI, getRateForLoanType, formatUSDInt } from '../utils/emiCalculator';
 import { generateApplicationId } from '../utils/autoSave';
-import { formatFileSize } from '../utils/documentValidation';
-import type { UploadedDocument } from '../types';
 
 export function Step5Review() {
   const store = useApplicationStore();

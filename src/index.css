@@ -114,17 +114,6 @@ body {
   box-shadow: 0 0 10px rgba(0, 102, 138, 0.2);
 }
 
-.step-pulse {
-  box-shadow: 0 0 0 0 rgba(0, 102, 138, 0.4);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(0, 102, 138, 0.4); }
-  70% { box-shadow: 0 0 0 10px rgba(0, 102, 138, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(0, 102, 138, 0); }
-}
-
 .glass-card {
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(12px);

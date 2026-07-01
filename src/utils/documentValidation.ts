@@ -1,15 +1,12 @@
 import { ALLOWED_DOCUMENT_TYPES, MAX_UPLOAD_SIZE } from '../types';
 import type { AllowedMimeType } from '../types';
 
-export interface ValidationResult {
+interface ValidationResult {
   valid: boolean;
   error?: string;
 }
 
-/**
- * Validate a file's MIME type against allowed document types.
- */
-export function validateFileType(file: File): ValidationResult {
+function validateFileType(file: File): ValidationResult {
   const isValid = ALLOWED_DOCUMENT_TYPES.includes(file.type as AllowedMimeType);
   if (!isValid) {
     const allowed = ALLOWED_DOCUMENT_TYPES.map((t) => t.split('/')[1].toUpperCase()).join(', ');
@@ -21,10 +18,7 @@ export function validateFileType(file: File): ValidationResult {
   return { valid: true };
 }
 
-/**
- * Validate a file's size against the maximum upload size.
- */
-export function validateFileSize(file: File): ValidationResult {
+function validateFileSize(file: File): ValidationResult {
   if (file.size > MAX_UPLOAD_SIZE) {
     return {
       valid: false,
@@ -34,16 +28,11 @@ export function validateFileSize(file: File): ValidationResult {
   return { valid: true };
 }
 
-/**
- * Run all validations on a file and return the first failure.
- */
 export function validateDocument(file: File): ValidationResult {
   const typeResult = validateFileType(file);
   if (!typeResult.valid) return typeResult;
-
   const sizeResult = validateFileSize(file);
   if (!sizeResult.valid) return sizeResult;
-
   return { valid: true };
 }
 

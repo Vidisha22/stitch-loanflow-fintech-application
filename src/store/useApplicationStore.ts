@@ -1,43 +1,25 @@
 import { create } from 'zustand';
-import type { PersonalInfo, AddressInfo, EmploymentInfo, LoanInfo, DraftMeta, UploadedDocument } from '../types';
+import type { PersonalInfo, AddressInfo, EmploymentInfo, LoanInfo, UploadedDocument } from '../types';
 
 interface ApplicationState {
-  /** Current wizard step (1-5) */
   currentStep: number;
-  
-  /** Step data */
   personalInfo: Partial<PersonalInfo>;
   addressInfo: Partial<AddressInfo>;
   employmentInfo: Partial<EmploymentInfo>;
   loanInfo: Partial<LoanInfo>;
   termsAccepted: boolean;
 
-  /** Verification states */
   panVerified: boolean;
   panEntityType: string | undefined;
   panVerificationStatus: 'idle' | 'verifying' | 'verified' | 'error';
   aadhaarVerified: boolean;
   aadhaarVerificationStatus: 'idle' | 'verifying' | 'verified' | 'error';
 
-  /** Draft info */
-  draftMeta: DraftMeta | null;
-
-  /** Auto-save indicator */
-  lastSavedAt: string | null;
-
-  /** File upload state */
   incomeDocument: File | null;
-
-  /** Signature data (PNG data URL) */
   signatureData: string | null;
-
-  /** Whether the user has saved a signature */
   signatureSaved: boolean;
-
-  /** Uploaded support documents */
   uploadedDocuments: UploadedDocument[];
 
-  /** Actions */
   setCurrentStep: (step: number) => void;
   nextStep: () => void;
   prevStep: () => void;
@@ -53,18 +35,14 @@ interface ApplicationState {
   setAadhaarVerified: (verified: boolean) => void;
   setAadhaarVerificationStatus: (status: 'idle' | 'verifying' | 'verified' | 'error') => void;
 
-  setDraftMeta: (meta: DraftMeta | null) => void;
-  setLastSavedAt: (time: string | null) => void;
   setIncomeDocument: (file: File | null) => void;
   setSignatureData: (data: string | null) => void;
   setSignatureSaved: (saved: boolean) => void;
 
-  /** Document upload actions */
   addDocument: (doc: UploadedDocument) => void;
   removeDocument: (docId: string) => void;
   clearDocuments: () => void;
 
-  /** Get all form data for review */
   getAllData: () => {
     personalInfo: Partial<PersonalInfo>;
     addressInfo: Partial<AddressInfo>;
@@ -73,7 +51,6 @@ interface ApplicationState {
     termsAccepted: boolean;
   };
 
-  /** Reset entire application */
   resetApplication: () => void;
 }
 
@@ -89,8 +66,6 @@ const initialState = {
   panVerificationStatus: 'idle' as const,
   aadhaarVerified: false,
   aadhaarVerificationStatus: 'idle' as const,
-  draftMeta: null,
-  lastSavedAt: null,
   incomeDocument: null,
   signatureData: null,
   signatureSaved: false,
@@ -151,10 +126,6 @@ export const useApplicationStore = create<ApplicationState>((set, get) => ({
   setAadhaarVerified: (verified) => set({ aadhaarVerified: verified }),
 
   setAadhaarVerificationStatus: (status) => set({ aadhaarVerificationStatus: status }),
-
-  setDraftMeta: (meta) => set({ draftMeta: meta }),
-
-  setLastSavedAt: (time) => set({ lastSavedAt: time }),
 
   setIncomeDocument: (file) => set({ incomeDocument: file }),
 

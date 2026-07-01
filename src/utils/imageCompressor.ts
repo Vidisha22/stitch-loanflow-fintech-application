@@ -76,7 +76,7 @@ export function compressImage(file: File): Promise<CompressionResult> {
           const ctx = canvas.getContext('2d')!;
           ctx.drawImage(img, 0, 0, width, height);
 
-          let quality = JPEG_QUALITY;
+          const quality = JPEG_QUALITY;
           let lastSize = Infinity;
 
           function attemptCompress(currentQuality: number) {

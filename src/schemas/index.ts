@@ -149,26 +149,7 @@ export const loanInfoSchema = z.object({
   purpose: z.string().min(10, 'Please provide at least 10 characters describing the purpose').max(500),
 });
 
-/** Signature validation — must be a non-empty data URL */
-export const signatureSchema = z.string().min(1, 'Signature is required').refine(
-  (val) => val.startsWith('data:image/'),
-  'Invalid signature data'
-);
-
-/** Complete application schema */
-export const applicationSchema = z.object({
-  personalInfo: personalInfoSchema,
-  addressInfo: addressInfoSchema,
-  employmentInfo: employmentInfoSchema,
-  loanInfo: loanInfoSchema,
-  termsAccepted: z.literal(true, { message: 'You must accept the terms and conditions' }),
-  signature: signatureSchema.optional(),
-});
-
-export type SignatureData = z.infer<typeof signatureSchema>;
-
 export type PersonalInfoFormData = z.infer<typeof personalInfoSchema>;
 export type AddressInfoFormData = z.infer<typeof addressInfoSchema>;
 export type EmploymentInfoFormData = z.infer<typeof employmentInfoSchema>;
 export type LoanInfoFormData = z.infer<typeof loanInfoSchema>;
-export type ApplicationFormData = z.infer<typeof applicationSchema>;

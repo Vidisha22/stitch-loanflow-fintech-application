@@ -48,15 +48,6 @@ export interface LoanInfo {
   purpose: string;
 }
 
-/** Complete loan application form data */
-export interface LoanApplication {
-  personalInfo: PersonalInfo;
-  addressInfo: AddressInfo;
-  employmentInfo: EmploymentInfo;
-  loanInfo: LoanInfo;
-  termsAccepted: boolean;
-}
-
 /** Draft metadata */
 export interface DraftMeta {
   draftId: string;
@@ -72,45 +63,6 @@ export interface EMIResult {
   totalRepayment: number;
   processingFee: number;
 }
-
-/** PAN Validation result */
-export interface PANValidationResult {
-  valid: boolean;
-  entityType?: string;
-  error?: string;
-}
-
-/** Aadhaar Validation result */
-export interface AadhaarValidationResult {
-  valid: boolean;
-  error?: string;
-}
-
-/** Verification simulation status */
-export type VerificationStatus = 'idle' | 'verifying' | 'verified' | 'error';
-
-/** Navigation direction */
-export type NavDirection = 'next' | 'prev';
-
-/** Step visibility condition */
-export interface StepVisibility {
-  show: boolean;
-  reason?: string;
-}
-
-/** File upload state */
-export interface FileUploadState {
-  file: File | null;
-  preview: string | null;
-  compressed?: boolean;
-  originalSize?: number;
-  compressedSize?: number;
-  compressionRatio?: string;
-  error?: string;
-}
-
-/** Supported document types */
-export type DocumentType = 'pdf' | 'jpg' | 'png';
 
 /** Allowed MIME types for documents */
 export const ALLOWED_DOCUMENT_TYPES = [
