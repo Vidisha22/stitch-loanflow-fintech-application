@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { PersonalInfo, AddressInfo, EmploymentInfo, LoanInfo, DraftMeta } from '../types';
+import type { PersonalInfo, AddressInfo, EmploymentInfo, LoanInfo, DraftMeta, UploadedDocument } from '../types';
 
 interface ApplicationState {
   /** Current wizard step (1-5) */
@@ -34,6 +34,9 @@ interface ApplicationState {
   /** Whether the user has saved a signature */
   signatureSaved: boolean;
 
+  /** Uploaded support documents */
+  uploadedDocuments: UploadedDocument[];
+
   /** Actions */
   setCurrentStep: (step: number) => void;
   nextStep: () => void;
@@ -55,6 +58,11 @@ interface ApplicationState {
   setIncomeDocument: (file: File | null) => void;
   setSignatureData: (data: string | null) => void;
   setSignatureSaved: (saved: boolean) => void;
+
+  /** Document upload actions */
+  addDocument: (doc: UploadedDocument) => void;
+  removeDocument: (docId: string) => void;
+  clearDocuments: () => void;
 
   /** Get all form data for review */
   getAllData: () => {
@@ -86,10 +94,24 @@ const initialState = {
   incomeDocument: null,
   signatureData: null,
   signatureSaved: false,
+  uploadedDocuments: [] as UploadedDocument[],
 };
 
 export const useApplicationStore = create<ApplicationState>((set, get) => ({
   ...initialState,
+
+  /** Document upload actions */
+  addDocument: (doc) => set((state) => ({
+    uploadedDocuments: state.uploadedDocuments.some((d) => d.id === doc.id)
+      ? state.uploadedDocuments.map((d) => (d.id === doc.id ? doc : d))
+      : [...state.uploadedDocuments, doc],
+  })),
+
+  removeDocument: (docId) => set((state) => ({
+    uploadedDocuments: state.uploadedDocuments.filter((d) => d.id !== docId),
+  })),
+
+  clearDocuments: () => set({ uploadedDocuments: [] }),
 
   setCurrentStep: (step) => set({ currentStep: step }),
 

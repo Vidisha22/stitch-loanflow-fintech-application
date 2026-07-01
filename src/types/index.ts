@@ -108,3 +108,37 @@ export interface FileUploadState {
   compressionRatio?: string;
   error?: string;
 }
+
+/** Supported document types */
+export type DocumentType = 'pdf' | 'jpg' | 'png';
+
+/** Allowed MIME types for documents */
+export const ALLOWED_DOCUMENT_TYPES = [
+  'application/pdf',
+  'image/jpeg',
+  'image/png',
+] as const;
+
+export type AllowedMimeType = (typeof ALLOWED_DOCUMENT_TYPES)[number];
+
+/** Maximum upload file size in bytes (10MB) */
+export const MAX_UPLOAD_SIZE = 10 * 1024 * 1024;
+
+/** Uploaded document metadata */
+export interface UploadedDocument {
+  id: string;
+  file: File;
+  name: string;
+  size: number;
+  type: string;
+  preview: string | null;
+  uploadedAt: number;
+  uploadProgress: number;
+}
+
+/** Upload progress simulation config */
+export interface UploadProgressConfig {
+  minDuration: number;
+  maxDuration: number;
+  interval: number;
+}

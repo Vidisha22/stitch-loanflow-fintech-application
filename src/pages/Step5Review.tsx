@@ -3,8 +3,11 @@ import { useApplicationStore } from '../store/useApplicationStore';
 import { WizardLayout } from '../components/WizardLayout';
 import { useNavigate } from '../hooks/useNavigate';
 import { SignaturePad } from '../components/SignaturePad';
+import { DocumentUpload } from '../components/DocumentUpload';
 import { calculateEMI, getRateForLoanType, formatUSDInt } from '../utils/emiCalculator';
 import { generateApplicationId } from '../utils/autoSave';
+import { formatFileSize } from '../utils/documentValidation';
+import type { UploadedDocument } from '../types';
 
 export function Step5Review() {
   const store = useApplicationStore();
@@ -218,6 +221,30 @@ export function Step5Review() {
           <div className="glass-card rounded-xl p-md shadow-sm">
             <h2 className="font-headline-md text-headline-md text-on-surface mb-md">Loan Purpose</h2>
             <p className="font-body-md text-body-md text-on-surface-variant">{loanInfo.purpose || '—'}</p>
+          </div>
+
+          {/* Uploaded Documents Section */}
+          <div className="glass-card rounded-xl p-md shadow-sm">
+            <div className="flex items-center gap-sm mb-md">
+              <div className="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center">
+                <span className="material-symbols-outlined text-secondary">description</span>
+              </div>
+              <h2 className="font-headline-md text-headline-md text-on-surface">Supporting Documents</h2>
+            </div>
+            <DocumentUpload
+              documents={store.uploadedDocuments}
+              onDocumentAdd={(doc) => store.addDocument(doc)}
+              onDocumentRemove={(docId) => store.removeDocument(docId)}
+              maxDocuments={5}
+            />
+            {store.uploadedDocuments.filter((d) => d.uploadProgress === 100).length > 0 && (
+              <div className="mt-sm pt-sm border-t border-outline-variant">
+                <p className="font-label-sm text-label-sm text-green-600 flex items-center gap-xs">
+                  <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                  {store.uploadedDocuments.filter((d) => d.uploadProgress === 100).length} document(s) uploaded successfully
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Signature Section */}
